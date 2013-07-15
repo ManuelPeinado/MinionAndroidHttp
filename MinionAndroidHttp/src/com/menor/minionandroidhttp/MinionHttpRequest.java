@@ -138,8 +138,6 @@ public class MinionHttpRequest implements Runnable {
                 if(!Thread.currentThread().isInterrupted()) {
                     throw e;
                 }
-            } catch (Exception e){
-                e.printStackTrace();
             } finally {
                 if (out != null) {
                     out.close();

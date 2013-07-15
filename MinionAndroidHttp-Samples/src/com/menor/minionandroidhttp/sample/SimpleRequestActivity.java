@@ -3,13 +3,13 @@ package com.menor.minionandroidhttp.sample;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
-import com.menor.minionandroidhttp.MinionHttpResponseHandler;
+import com.menor.minionandroidhttp.JsonHttpResponseHandler;
 import com.menor.minionandroidhttp.RequestParams;
-import com.menor.minionandroidhttp.SuccessResponse;
+import org.json.JSONObject;
 
 import java.util.Date;
 
-public class SimpleRequestActivity extends Activity {
+public class SimpleRequestActivity extends Activity implements JsonHttpResponseHandler {
 
     private TextView getView;
     private TextView getTimeView;
@@ -27,6 +27,8 @@ public class SimpleRequestActivity extends Activity {
         setViews();
         doStuff();
     }
+
+
 
     private void setViews() {
         getView = (TextView) findViewById(R.id.response_get);
@@ -51,24 +53,8 @@ public class SimpleRequestActivity extends Activity {
         RequestParams params = new RequestParams();
         params.put("clave", "iabadabadu");
         params.put("usuario", "18");
-        DespicableHttpClient.post("sitios-grabar.php", params, new MinionHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(SuccessResponse response) {
-                super.onSuccess(response);
-                postView.setText(response.getContent());
-                postTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
-            }
-
-            @Override
-            public void onFailure(Throwable error, String content) {
-                super.onFailure(error, content);
-                final long start = new Date().getTime();
-                postView.setText(error.getMessage());
-                postTimeView.setText("" +  (new Date().getTime() - start) + " milliseconds");
-            }
-
-        });
+        params.put("idcliente", "15600");
+        DespicableHttpClient.post("sitios-grabar.php", params, this);
     }
 
     private void doGetRequest() {
@@ -76,13 +62,13 @@ public class SimpleRequestActivity extends Activity {
         RequestParams params = new RequestParams();
         params.put("clave", "iabadabadu");
         params.put("index", "0");
-        DespicableHttpClient.get("", params, new MinionHttpResponseHandler() {
+        DespicableHttpClient.get("", params, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(SuccessResponse response) {
+            public void onSuccess(JSONObject response) {
                 super.onSuccess(response);
-                getView.setText(response.getContent());
-                getTimeView.setText("" +  (new Date().getTime() - start) + " milliseconds");
+                getView.setText(response.toString());
+                getTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
             }
 
             @Override

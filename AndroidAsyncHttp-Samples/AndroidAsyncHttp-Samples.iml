@@ -15,7 +15,7 @@
     </content>
     <orderEntry type="jdk" jdkName="API 16 (4.1.2)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="android-async-http-1.4.3" level="project" />
+    <orderEntry type="module" module-name="AndroidAsyncHttp" exported="" />
   </component>
 </module>
 

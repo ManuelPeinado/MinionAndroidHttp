@@ -108,8 +108,8 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
         onSuccess(response);
     }
 
-    public void onFailure(Throwable e, JSONObject errorResponse) {}
-    public void onFailure(Throwable e, JSONArray errorResponse) {}
+    public void onFailure(Throwable error, JSONObject errorResponse) {}
+    public void onFailure(Throwable error, JSONArray errorResponse) {}
 
 
     //

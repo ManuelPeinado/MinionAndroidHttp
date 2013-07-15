@@ -12,7 +12,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.List;
 import java.util.Map;
 
-public class MinionHttpResponseHandler implements MinionListener {
+public class MinionHttpResponseHandler {
 
     protected static final int SUCCESS_MESSAGE = 0;
     protected static final int FAILURE_MESSAGE = 1;
@@ -50,29 +50,95 @@ public class MinionHttpResponseHandler implements MinionListener {
         return sb.toString();
     }
 
-    @Override
-    public void onStart() { }
+    /**
+     * Fired when the request is started
+     */
+    public void onPreExecute() {}
 
-    @Override
-    public void onStart(String tag) { }
+    /**
+     * Fired when the request is started
+     * @param tag the associated id to the call
+     */
+    public void onPreExecute(String tag) {}
 
-    @Override
-    public void onFinish() { }
+    /**
+     * Fired in all cases when the request is finished, after both success and failure
+     */
+    public void onPostExecute() {}
 
-    @Override
-    public void onFinish(String tag) { }
+    /**
+     * Fired in all cases when the request is finished, after both success and failure
+     * @param tag the associated id to the call
+     */
+    public void onPostExecute(String tag) {}
 
-    @Override
-    public void onSuccess(SuccessResponse response) { }
+    /**
+     * Fired when a request returns successfully
+     *  @param content the body of the HTTP response from the server
+     */
+    public void onSuccess(String content) {}
 
-    @Override
-    public void onSuccess(String tag, SuccessResponse response) { }
+    /**
+     * Fired when a request returns successfully
+     * @param tag the associated id to the call
+     * @param content the body of the HTTP response from the server
+     */
+    public void onSuccess(String tag, String content) {}
 
-    @Override
-    public void onFailure(Throwable error, String content) { }
+    /**
+     * Fired when a request returns successfully, override to handle in your own code
+     * @param statusCode the status code of the response
+     * @param content the body of the HTTP response from the server
+     */
+    public void onSuccess(int statusCode, String content) {
+        onSuccess(content);
+    }
 
-    @Override
-    public void onFailure(String tag, Throwable error, String content) { }
+    /**
+     * Fired when a request returns successfully, override to handle in your own code
+     * @param tag the associated id to the call
+     * @param statusCode the status code of the response
+     * @param content the body of the HTTP response from the server
+     */
+    public void onSuccess(String tag, int statusCode, String content) {
+        onSuccess(tag, content);
+    }
+
+    /**
+     * Fired when a request returns successfully, override to handle in your own code
+     * @param statusCode the status code of the response
+     * @param headers the headers of the HTTP response
+     * @param content the body of the HTTP response from the server
+     */
+    public void onSuccess(int statusCode, Map<String, List<String>> headers, String content) {
+        onSuccess(statusCode, content);
+    }
+
+    /**
+     * Fired when a request returns successfully, override to handle in your own code
+     * @param tag the associated id to the call
+     * @param statusCode the status code of the response
+     * @param headers the headers of the HTTP response
+     * @param content the body of the HTTP response from the server
+     */
+    public void onSuccess(String tag, int statusCode, Map<String, List<String>> headers, String content) {
+        onSuccess(tag, statusCode, content);
+    }
+
+    /**
+     * Fired when a request fails to complete
+     * @param error the underlying cause of the failure
+     * @param content the response body, if any
+     */
+    public void onFailure(Throwable error, String content) {}
+
+    /**
+     * Fired when a request fails to complete
+     * @param tag the associated id to the call
+     * @param error the underlying cause of the failure
+     * @param content the response body, if any
+     */
+    public void onFailure(String tag, Throwable error, String content) {}
 
     //Interface to MinionHttpRequest
     public void sendResponseMessage(HttpURLConnection connection, String charset) {
@@ -111,17 +177,17 @@ public class MinionHttpResponseHandler implements MinionListener {
         switch (msg.what) {
             case SUCCESS_MESSAGE:
                 response = (Object[]) msg.obj;
-                handleSuccessMessage(((Integer) response[0]).intValue(), (Map<String, List<String>>) response[1], (String) response[2]);
+                handleSuccessMessage((Integer) response[0], (Map<String, List<String>>) response[1], (String) response[2]);
                 break;
             case FAILURE_MESSAGE:
                 response = (Object[]) msg.obj;
                 handleFailureMessage((Throwable) response[0], (String) response[1]);
                 break;
             case START_MESSAGE:
-                onStart(mTag);
+                onPreExecute(mTag);
                 break;
             case FINISH_MESSAGE:
-                onFinish(mTag);
+                onPostExecute(mTag);
                 break;
         }
     }
@@ -135,7 +201,7 @@ public class MinionHttpResponseHandler implements MinionListener {
     }
 
     protected Message obtainMessage(int responseMessage, Object response) {
-        Message msg = null;
+        Message msg;
         if (handler != null) {
             msg = this.handler.obtainMessage(responseMessage, response);
         } else {
@@ -148,7 +214,7 @@ public class MinionHttpResponseHandler implements MinionListener {
 
     //Pre-processing of messages (in original calling thread, typically the UI thread)
     protected void handleSuccessMessage(int statusCode, Map<String, List<String>> headers, String responseBody) {
-        onSuccess(new SuccessResponse(statusCode, headers, responseBody));
+        onSuccess(statusCode, headers, responseBody);
     }
 
     protected void handleFailureMessage(Throwable e, String responseBody) {
