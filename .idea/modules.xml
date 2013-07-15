@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidAsyncHttp/AndroidAsyncHttp.iml" filepath="$PROJECT_DIR$/AndroidAsyncHttp/AndroidAsyncHttp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidAsyncHttp-Samples/AndroidAsyncHttp-Samples.iml" filepath="$PROJECT_DIR$/AndroidAsyncHttp-Samples/AndroidAsyncHttp-Samples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MinionAndroidHttp/MinionAndroidHttp.iml" filepath="$PROJECT_DIR$/MinionAndroidHttp/MinionAndroidHttp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MinionAndroidHttp-Samples/MinionAndroidHttp-Samples.iml" filepath="$PROJECT_DIR$/MinionAndroidHttp-Samples/MinionAndroidHttp-Samples.iml" />
+    </modules>
+  </component>
+</project>
+
