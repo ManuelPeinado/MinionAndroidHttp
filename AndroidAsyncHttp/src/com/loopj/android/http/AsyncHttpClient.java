@@ -18,10 +18,37 @@
 
 package com.loopj.android.http;
 
-import android.content.Context;
-import org.apache.http.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.zip.GZIPInputStream;
+
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpResponseInterceptor;
+import org.apache.http.HttpVersion;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CookieStore;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.conn.params.ConnPerRouteBean;
@@ -40,14 +67,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.SyncBasicHttpContext;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.zip.GZIPInputStream;
+import android.content.Context;
 
 
 public class AsyncHttpClient {
@@ -134,10 +154,17 @@ public class AsyncHttpClient {
         clientHeaderMap = new HashMap<String, String>();
     }
 
-
+    /**
+     * Get the underlying HttpClient instance. This is useful for setting
+     * additional fine-grained settings for requests by accessing the
+     * client's ConnectionManager, HttpParams and SchemeRegistry.
+     */
+    public HttpClient getHttpClient() {
+        return this.httpClient;
+    }
 
     /**
-     * Get the underlying HttpContext instance. This is useful for getting 
+     * Get the underlying HttpContext instance. This is useful for getting
      * and setting fine-grained settings for requests by accessing the
      * context's attributes such as the CookieStore.
      */
@@ -153,9 +180,23 @@ public class AsyncHttpClient {
         httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
     }
 
+    /**
+     * Overrides the threadpool implementation used when queuing/pooling
+     * requests. By default, Executors.newCachedThreadPool() is used.
+     * @param threadPool an instance of {@link ThreadPoolExecutor} to use for queuing/pooling requests.
+     */
+    public void setThreadPool(ThreadPoolExecutor threadPool) {
+        this.threadPool = threadPool;
+    }
 
-
-
+    /**
+     * Sets the User-Agent header to be sent with each request. By default,
+     * "Android Asynchronous Http Client/VERSION (http://loopj.com/android-async-http/)" is used.
+     * @param userAgent the string to use in the User-Agent header.
+     */
+    public void setUserAgent(String userAgent) {
+        HttpProtocolParams.setUserAgent(this.httpClient.getParams(), userAgent);
+    }
 
     /**
      * Sets the connection time oout. By default, 10 seconds
@@ -177,24 +218,149 @@ public class AsyncHttpClient {
         this.httpClient.getConnectionManager().getSchemeRegistry().register(new Scheme("https", sslSocketFactory, 443));
     }
     
+    /**
+     * Sets headers that will be added to all requests this client makes (before sending).
+     * @param header the name of the header
+     * @param value the contents of the header
+     */
+    public void addHeader(String header, String value) {
+        clientHeaderMap.put(header, value);
+    }
+
+    /**
+     * Sets basic authentication for the request. Uses AuthScope.ANY. This is the same as
+     * setBasicAuth('username','password',AuthScope.ANY)
+     * @param username
+     * @param password
+     */
+    public void setBasicAuth(String user, String pass){
+        AuthScope scope = AuthScope.ANY;
+        setBasicAuth(user, pass, scope);
+    }
+
+   /**
+     * Sets basic authentication for the request. You should pass in your AuthScope for security. It should be like this
+     * setBasicAuth("username","password", new AuthScope("host",port,AuthScope.ANY_REALM))
+     * @param username
+     * @param password
+     * @param scope - an AuthScope object
+     *
+     */
+    public void setBasicAuth( String user, String pass, AuthScope scope){
+        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(user,pass);
+        this.httpClient.getCredentialsProvider().setCredentials(scope, credentials);
+    }
+
+    /**
+     * Cancels any pending (or potentially active) requests associated with the
+     * passed Context.
+     * <p>
+     * <b>Note:</b> This will only affect requests which were created with a non-null
+     * android Context. This method is intended to be used in the onDestroy
+     * method of your android activities to destroy all requests which are no
+     * longer required.
+     *
+     * @param context the android Context instance associated to the request.
+     * @param mayInterruptIfRunning specifies if active requests should be cancelled along with pending requests.
+     */
+    public void cancelRequests(Context context, boolean mayInterruptIfRunning) {
+        List<WeakReference<Future<?>>> requestList = requestMap.get(context);
+        if(requestList != null) {
+            for(WeakReference<Future<?>> requestRef : requestList) {
+                Future<?> request = requestRef.get();
+                if(request != null) {
+                    request.cancel(mayInterruptIfRunning);
+                }
+            }
+        }
+        requestMap.remove(context);
+    }
 
 
+    //
+    // HTTP GET Requests
+    //
+
+    /**
+     * Perform a HTTP GET request, without any parameters.
+     * @param url the URL to send the request to.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void get(String url, AsyncHttpResponseHandler responseHandler) {
+        get(null, url, null, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP GET request with parameters.
+     * @param url the URL to send the request to.
+     * @param params additional GET parameters to send with the request.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        get(null, url, params, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP GET request without any parameters and track the Android Context which initiated the request.
+     * @param context the Android Context which initiated the request.
+     * @param url the URL to send the request to.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void get(Context context, String url, AsyncHttpResponseHandler responseHandler) {
+        get(context, url, null, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP GET request and track the Android Context which initiated the request.
+     * @param context the Android Context which initiated the request.
+     * @param url the URL to send the request to.
+     * @param params additional GET parameters to send with the request.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void get(Context context, String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        sendRequest(httpClient, httpContext, new HttpGet(getUrlWithQueryString(url, params)), null, responseHandler, context);
+    }
+
+    /**
+     * Perform a HTTP GET request and track the Android Context which initiated
+     * the request with customized headers
+     *
+     * @param url the URL to send the request to.
+     * @param headers set headers only for this request
+     * @param params additional GET parameters to send with the request.
+     * @param responseHandler the response handler instance that should handle
+     *        the response.
+     */
+    public void get(Context context, String url, Header[] headers, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        HttpUriRequest request = new HttpGet(getUrlWithQueryString(url, params));
+        if(headers != null) request.setHeaders(headers);
+        sendRequest(httpClient, httpContext, request, null, responseHandler,
+                context);
+    }
 
 
+    //
+    // HTTP POST Requests
+    //
 
+    /**
+     * Perform a HTTP POST request, without any parameters.
+     * @param url the URL to send the request to.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void post(String url, AsyncHttpResponseHandler responseHandler) {
+        post(null, url, null, responseHandler);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Perform a HTTP POST request with parameters.
+     * @param url the URL to send the request to.
+     * @param params additional POST parameters or files to send with the request.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        post(null, url, params, responseHandler);
+    }
 
     /**
      * Perform a HTTP POST request and track the Android Context which initiated the request.
@@ -222,7 +388,7 @@ public class AsyncHttpClient {
     /**
      * Perform a HTTP POST request and track the Android Context which initiated
      * the request. Set headers only for this request
-     * 
+     *
      * @param context the Android Context which initiated the request.
      * @param url the URL to send the request to.
      * @param headers set headers only for this request
@@ -232,7 +398,8 @@ public class AsyncHttpClient {
      * @param responseHandler the response handler instance that should handle
      *        the response.
      */
-    public void post(Context context, String url, Header[] headers, RequestParams params, String contentType, AsyncHttpResponseHandler responseHandler) {
+    public void post(Context context, String url, Header[] headers, RequestParams params, String contentType,
+            AsyncHttpResponseHandler responseHandler) {
         HttpEntityEnclosingRequestBase request = new HttpPost(url);
         if(params != null) request.setEntity(paramsToEntity(params));
         if(headers != null) request.setHeaders(headers);
@@ -255,7 +422,8 @@ public class AsyncHttpClient {
      * @param responseHandler the response handler instance that should handle
      *        the response.
      */
-    public void post(Context context, String url, Header[] headers, HttpEntity entity, String contentType, AsyncHttpResponseHandler responseHandler) {
+    public void post(Context context, String url, Header[] headers, HttpEntity entity, String contentType,
+            AsyncHttpResponseHandler responseHandler) {
         HttpEntityEnclosingRequestBase request = addEntityToRequestBase(new HttpPost(url), entity);
         if(headers != null) request.setHeaders(headers);
         sendRequest(httpClient, httpContext, request, contentType, responseHandler, context);
@@ -307,7 +475,7 @@ public class AsyncHttpClient {
     public void put(Context context, String url, HttpEntity entity, String contentType, AsyncHttpResponseHandler responseHandler) {
         sendRequest(httpClient, httpContext, addEntityToRequestBase(new HttpPut(url), entity), contentType, responseHandler, context);
     }
-    
+
     /**
      * Perform a HTTP PUT request and track the Android Context which initiated the request.
      * And set one-time headers for the request

@@ -24,13 +24,13 @@ public class HomeActivity extends Activity {
         final long start = new Date().getTime();
         RequestParams params = new RequestParams();
         params.put("clave", "iabadabadu");
-        params.put("index", "0");
-        ExampleClient.get("", params, new AsyncHttpResponseHandler() {
+        params.put("usuario", "18");
+        ExampleClient.post("sitios-grabar.php", params, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(String response) {
                 textView1.setText(response);
-                textView3.setText("" + (new Date().getTime() - start) + " milliseconds");
+                textView3.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
             }
 
             @Override

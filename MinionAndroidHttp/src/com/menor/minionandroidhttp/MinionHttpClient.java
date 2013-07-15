@@ -2,17 +2,8 @@ package com.menor.minionandroidhttp;
 
 import android.content.Context;
 import com.squareup.okhttp.OkHttpClient;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.protocol.HTTP;
 
 import java.lang.ref.WeakReference;
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +27,8 @@ public class MinionHttpClient {
     private final OkHttpClient mOkHttpClient;
     private final Map<Context, List<WeakReference<Future<?>>>> requestMap;
     private final RequestProperties mGlobalProperties;
+    private static final String VERSION = "1.0.0";
+    private static final String AGENT = String.format("Minion Android Http Client/%s", VERSION);
 
 
 
@@ -55,6 +48,7 @@ public class MinionHttpClient {
         mThreadPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         requestMap = new WeakHashMap<Context, List<WeakReference<Future<?>>>>();
         mGlobalProperties = new RequestProperties();
+        mGlobalProperties.setAgent(AGENT);
     }
 
     // *******************************
@@ -190,7 +184,7 @@ public class MinionHttpClient {
      * @param responseHandler the response handler instance that should handle the response.
      */
     public void get(Context context, String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
-        sendRequest(mOkHttpClient, getUrlWithQueryString(url, params), context, responseHandler, null, RequestMethod.GET);
+        sendRequest(getUrlWithQueryString(url, params), null, context, responseHandler, null, RequestMethod.GET);
     }
 
     /**
@@ -203,7 +197,7 @@ public class MinionHttpClient {
      * @param responseHandler the response handler instance that should handle the response.
      */
     public void get(Context context, String url, RequestProperties headers, RequestParams params, MinionHttpResponseHandler responseHandler) {
-        sendRequest(mOkHttpClient, getUrlWithQueryString(url, params), context, responseHandler, headers, RequestMethod.GET);
+        sendRequest(getUrlWithQueryString(url, params), null, context, responseHandler, headers, RequestMethod.GET);
     }
 
     /**
@@ -233,19 +227,19 @@ public class MinionHttpClient {
      * @param responseHandler the response handler instance that should handle the response.
      */
     public void post(Context context, String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
-        post(context, url, paramsToEntity(params), null, responseHandler);
+        post(context, url, params, null, responseHandler);
     }
 
     /**
      * Perform a HTTP POST request and track the Android Context which initiated the request.
      * @param context the Android Context which initiated the request.
      * @param url the URL to send the request to.
-     * @param entity a raw {@link org.apache.http.HttpEntity} to send with the request, for example, use this to send string/json/xml payloads to a server by passing a {@link org.apache.http.entity.StringEntity}.
+     * @param params additional POST parameters or files to send with the request.
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void post(Context context, String url, HttpEntity entity, String contentType, MinionHttpResponseHandler responseHandler) {
-        sendRequest(httpClient, httpContext, addEntityToRequestBase(new HttpPost(url), entity), contentType, responseHandler, context);
+    public void post(Context context, String url, RequestParams params, String contentType, MinionHttpResponseHandler responseHandler) {
+        post(context, url, params, new RequestProperties(), contentType, responseHandler);
     }
 
     /**
@@ -254,23 +248,116 @@ public class MinionHttpClient {
      *
      * @param context the Android Context which initiated the request.
      * @param url the URL to send the request to.
-     * @param headers set headers only for this request
-     * @param entity a raw {@link HttpEntity} to send with the request, for example, use this to send string/json/xml payloads to a server by passing a {@link org.apache.http.entity.StringEntity}.
+     * @param params additional POST parameters or files to send with the request.
+     * @param requestProperties set headers only for this request
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void post(Context context, String url, Header[] headers, HttpEntity entity, String contentType, AsyncHttpResponseHandler responseHandler) {
-        HttpEntityEnclosingRequestBase request = addEntityToRequestBase(new HttpPost(url), entity);
-        if(headers != null) request.setHeaders(headers);
-        sendRequest(httpClient, httpContext, request, contentType, responseHandler, context);
+    public void post(Context context, String url, RequestParams params, RequestProperties requestProperties, String contentType, MinionHttpResponseHandler responseHandler) {
+        if (requestProperties != null && contentType != null) {
+            requestProperties.setContentType(contentType);
+        }
+        sendRequest(url, params, context, responseHandler, requestProperties, RequestMethod.POST);
     }
+
+    /**
+     * Perform a HTTP PUT request, without any parameters.
+     * @param url the URL to send the request to.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void put(String url, MinionHttpResponseHandler responseHandler) {
+        put(null, url, null, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP PUT request with parameters.
+     * @param url the URL to send the request to.
+     * @param params additional PUT parameters or files to send with the request.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void put(String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
+        put(null, url, params, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP PUT request and track the Android Context which initiated the request.
+     * @param context the Android Context which initiated the request.
+     * @param url the URL to send the request to.
+     * @param params additional PUT parameters or files to send with the request.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void put(Context context, String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
+        put(context, url, params, null, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP PUT request and track the Android Context which initiated the request.
+     * And set one-time headers for the request
+     * @param context the Android Context which initiated the request.
+     * @param url the URL to send the request to.
+     * @param params additional PUT parameters or files to send with the request.
+     * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void put(Context context, String url, RequestParams params, String contentType, MinionHttpResponseHandler responseHandler) {
+        put(context, url, params, new RequestProperties(), contentType, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP PUT request and track the Android Context which initiated the request.
+     * And set one-time headers for the request
+     * @param context the Android Context which initiated the request.
+     * @param url the URL to send the request to.
+     * @param params additional POST parameters or files to send with the request.
+     * @param requestProperties set headers only for this request
+     * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void put(Context context, String url, RequestParams params, RequestProperties requestProperties, String contentType, MinionHttpResponseHandler responseHandler) {
+        if (requestProperties != null && contentType != null) {
+            requestProperties.setContentType(contentType);
+        }
+        sendRequest(url, params, context, responseHandler, requestProperties,RequestMethod.PUT);
+    }
+
+    /**
+     * Perform a HTTP DELETE request.
+     * @param url the URL to send the request to.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void delete(String url, MinionHttpResponseHandler responseHandler) {
+        delete(null, url, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP DELETE request.
+     * @param context the Android Context which initiated the request.
+     * @param url the URL to send the request to.
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void delete(Context context, String url, MinionHttpResponseHandler responseHandler) {
+        delete(context, url, null, responseHandler);
+    }
+
+    /**
+     * Perform a HTTP DELETE request.
+     * @param context the Android Context which initiated the request.
+     * @param url the URL to send the request to.
+     * @param requestProperties set headers only for this request
+     * @param responseHandler the response handler instance that should handle the response.
+     */
+    public void delete(Context context, String url, RequestProperties requestProperties, MinionHttpResponseHandler responseHandler) {
+        sendRequest(url, null, context, null, requestProperties, RequestMethod.DELETE);
+    }
+
 
 
     // *******************************
     // ****** Protected Methods ******
     // *******************************
-    protected void sendRequest(OkHttpClient mOkHttpClient, String url, Context context, MinionHttpResponseHandler responseHandler, RequestProperties requestProperties, RequestMethod method) {
-        Future<?> request = mThreadPool.submit(new MinionHttpRequest(mOkHttpClient, responseHandler, url, method, mUserAgent, mSocketTimeOut, mCharset));
+    protected void sendRequest(String url, RequestParams params, Context context, MinionHttpResponseHandler responseHandler, RequestProperties requestProperties, RequestMethod method) {
+        Future<?> request = mThreadPool.submit(new MinionHttpRequest(mOkHttpClient, responseHandler, url, params, mGlobalProperties, requestProperties, mSocketTimeOut, mCharset, method));
+
         if (context != null) {
             // Add request to request map
             List<WeakReference<Future<?>>> requestList = requestMap.get(context);
@@ -297,19 +384,5 @@ public class MinionHttpClient {
         }
         return url;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

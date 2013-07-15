@@ -94,7 +94,7 @@ public class MinionHttpResponseHandler implements MinionListener {
             } else {
                 sendSuccessMessage(connection.getResponseCode(), connection.getHeaderFields(), responseBody);
             }
-
+            in.close();
         } catch (IOException e) {
             //file not found es 404 from server
             sendFailureMessage(e, null);
