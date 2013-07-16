@@ -1,11 +1,11 @@
 package com.menor.minionandroidhttp.sample;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.TextView;
-import com.menor.minionandroidhttp.JsonHttpResponseHandler;
+import com.menor.minionandroidhttp.MinionStringListener;
 import com.menor.minionandroidhttp.RequestParams;
-import org.json.JSONObject;
 
 import java.util.Date;
 
@@ -27,7 +27,6 @@ public class SimpleRequestActivity extends Activity {
         setViews();
         doStuff();
     }
-
 
 
 
@@ -61,16 +60,46 @@ public class SimpleRequestActivity extends Activity {
     private void doGetRequest() {
         final long start = new Date().getTime();
         RequestParams params = new RequestParams();
-        params.put("clave", "iabadabadu");
-        params.put("index", "0");
-        DespicableHttpClient.get("", params, new JsonHttpResponseHandler() {
+        params.put("sid", "Cap9lpnb2Fg3Bp,i1RPhL2");
+        DespicableHttpClient.get("list.json", params, new MinionStringListener() {
+
+            ProgressDialog mProgressDialog;
 
             @Override
-            public void onSuccess(JSONObject response) {
-                super.onSuccess(response);
-                getView.setText(response.toString());
+            public void onPreExecute() {
+                mProgressDialog = new ProgressDialog(SimpleRequestActivity.this);
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setMessage("Loading...");
+                mProgressDialog.show();
+            }
+
+            @Override
+            public void onSuccess(String content) {
+                getView.setText(content);
                 getTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
             }
+
+            @Override
+            public void onFailure(Throwable error, String content) {
+                getView.setText(error.getMessage());
+                putView.setText(content);
+                getTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
+            }
+
+            @Override
+            public void onPostExecute() {
+                mProgressDialog.dismiss();
+            }
+        });
+    }
+
+
+//    @Override
+//    public void onSuccess(JSONObject response) {
+//        super.onSuccess(response);
+//        getView.setText(response.toString());
+//        getTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
+//    }
 
 //            @Override
 //            public void onFailure(Throwable error, String content) {
@@ -78,10 +107,6 @@ public class SimpleRequestActivity extends Activity {
 //                getView.setText(error.getMessage());
 //                getTimeView.setText("" +  (new Date().getTime() - start) + " milliseconds");
 //            }
-
-        });
-
-    }
 
     private void doPutRequest() {
 

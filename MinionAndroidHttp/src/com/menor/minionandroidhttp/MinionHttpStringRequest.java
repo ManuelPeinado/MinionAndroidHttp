@@ -3,10 +3,12 @@ package com.menor.minionandroidhttp;
 import android.os.Message;
 import com.squareup.okhttp.OkHttpClient;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map;
 
-public class MinionHttpStringRequest extends DespicableHttpRequest implements Runnable {
+public class MinionHttpStringRequest extends DespicableHttpRequest {
 
     private MinionStringListener mListener;
 
@@ -30,29 +32,26 @@ public class MinionHttpStringRequest extends DespicableHttpRequest implements Ru
                     mListener.onPostExecute();
                 }
                 break;
+            case SUCCESS_MESSAGE:
+                response = (Object[]) msg.obj;
+                if (mListener != null) {
+                    mListener.onSuccess((Integer) response[0], (Map<String, List<String>>) response[1], (String) response[2]);
+                }
+                break;
+            case FAILURE_MESSAGE:
+                response = (Object[]) msg.obj;
+                if (mListener != null) {
+                    mListener.onFailure((Throwable) response[0], (String) response[1]);
+                }
+                break;
         }
     }
 
-
-    //TODO ES MUY PROBABLE QUE EL RUN LO TENGA QUE PONER EN EL PADRE!!!
     @Override
-    public void run() {
-        sendStartMessage();
-        makeRequest();
+    protected Object parseResponse(InputStream is) throws Exception {
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+        return readAll(rd);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -62,8 +61,5 @@ public class MinionHttpStringRequest extends DespicableHttpRequest implements Ru
         }
         return sb.toString();
     }
-
-
-
 
 }

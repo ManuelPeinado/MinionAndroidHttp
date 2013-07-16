@@ -39,8 +39,6 @@ public class HomeActivity extends Activity {
                 mProgressDialog.show();
             }
 
-
-
             @Override
             public void onSuccess(JSONObject response) {
                 super.onSuccess(response);
@@ -56,11 +54,23 @@ public class HomeActivity extends Activity {
             }
 
             @Override
+            public void onFailure(Throwable error, String content) {
+                super.onFailure(error, content);
+                textView1.setText(content);
+                textView3.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
+            }
+
+            @Override
             public void onFinish() {
                 super.onFinish();
                 mProgressDialog.dismiss();
             }
         });
+
     }
 
 }
+
+
+
+
