@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-public class SimpleRequestActivity extends Activity implements JsonHttpResponseHandler {
+public class SimpleRequestActivity extends Activity {
 
     private TextView getView;
     private TextView getTimeView;
@@ -27,6 +27,7 @@ public class SimpleRequestActivity extends Activity implements JsonHttpResponseH
         setViews();
         doStuff();
     }
+
 
 
 
@@ -54,7 +55,7 @@ public class SimpleRequestActivity extends Activity implements JsonHttpResponseH
         params.put("clave", "iabadabadu");
         params.put("usuario", "18");
         params.put("idcliente", "15600");
-        DespicableHttpClient.post("sitios-grabar.php", params, this);
+//        DespicableHttpClient.post("sitios-grabar.php", params, this);
     }
 
     private void doGetRequest() {
@@ -71,12 +72,12 @@ public class SimpleRequestActivity extends Activity implements JsonHttpResponseH
                 getTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
             }
 
-            @Override
-            public void onFailure(Throwable error, String content) {
-                super.onFailure(error, content);
-                getView.setText(error.getMessage());
-                getTimeView.setText("" +  (new Date().getTime() - start) + " milliseconds");
-            }
+//            @Override
+//            public void onFailure(Throwable error, String content) {
+////                super.onFailure(error, content);
+//                getView.setText(error.getMessage());
+//                getTimeView.setText("" +  (new Date().getTime() - start) + " milliseconds");
+//            }
 
         });
 

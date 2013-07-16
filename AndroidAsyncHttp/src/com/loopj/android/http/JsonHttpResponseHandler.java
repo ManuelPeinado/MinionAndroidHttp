@@ -18,6 +18,7 @@
 
 package com.loopj.android.http;
 
+import android.util.Log;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +52,9 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
      * own code.
      * @param response the parsed json object found in the server response (if any)
      */
-    public void onSuccess(JSONObject response) {}
+    public void onSuccess(JSONObject response) {
+        Log.v(this.getClass().getSimpleName(), "onSuccess()");
+    }
 
 
     /**
@@ -60,7 +63,9 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
      * own code.
      * @param response the parsed json array found in the server response (if any)
      */
-    public void onSuccess(JSONArray response) {}
+    public void onSuccess(JSONArray response) {
+        Log.v(this.getClass().getSimpleName(), "onSuccess()");
+    }
 
     /**
      * Fired when a request returns successfully and contains a json object
@@ -108,8 +113,12 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
         onSuccess(response);
     }
 
-    public void onFailure(Throwable error, JSONObject errorResponse) {}
-    public void onFailure(Throwable error, JSONArray errorResponse) {}
+    public void onFailure(Throwable error, JSONObject errorResponse) {
+        Log.v(this.getClass().getSimpleName(), "onFailure()");
+    }
+    public void onFailure(Throwable error, JSONArray errorResponse) {
+        Log.v(this.getClass().getSimpleName(), "onFailure()");
+    }
 
 
     //
@@ -121,7 +130,11 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
         if (statusCode != HttpStatus.SC_NO_CONTENT){        
             try {
                 Object jsonResponse = parseResponse(responseBody);
-	        sendMessage(obtainMessage(SUCCESS_JSON_MESSAGE, new Object[]{statusCode, headers, jsonResponse}));
+
+                //aqui va el parseado background
+//                jsonResponse = parseSuccessMessage(jsonResponse);
+
+	            sendMessage(obtainMessage(SUCCESS_JSON_MESSAGE, new Object[]{statusCode, headers, jsonResponse}));
     	    } catch(JSONException e) {
     	        sendFailureMessage(e, responseBody);
     	    }

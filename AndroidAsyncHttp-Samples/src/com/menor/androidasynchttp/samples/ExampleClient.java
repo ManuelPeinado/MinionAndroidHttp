@@ -5,7 +5,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class ExampleClient {
-    private static final String BASE_URL = "http://www.eatapp.es/servicios_app/";
+    private static final String BASE_URL = "http://b2banywhere.com/api/en/b2b/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

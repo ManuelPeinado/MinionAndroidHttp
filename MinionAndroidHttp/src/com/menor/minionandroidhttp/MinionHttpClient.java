@@ -23,7 +23,7 @@ public class MinionHttpClient {
     // *******************************
     // ********** Constants **********
     // *******************************
-    private static final int DEFAULT_SOCKET_TIMEOUT = 10 * 1000;
+
     private final OkHttpClient mOkHttpClient;
     private final Map<Context, List<WeakReference<Future<?>>>> requestMap;
     private final RequestProperties mGlobalProperties;
@@ -31,13 +31,15 @@ public class MinionHttpClient {
     private static final String AGENT = String.format("Minion Android Http Client/%s", VERSION);
 
 
-
     // *******************************
     // ********** Variables **********
     // *******************************
+
     private ThreadPoolExecutor mThreadPool;
-    private static int mSocketTimeOut = DEFAULT_SOCKET_TIMEOUT;
-    private static String mCharset = "UTF-8";
+    private static int mConnectionTimeOut = Defaults.CONNECT_TIMEOUT;
+    private static int mReadTimeOut = Defaults.READ_TIMEOUT;
+    private static String mCharset = Defaults.CHARSET_UTF8;
+
 
     // *******************************
     // ******** Constructors *********
@@ -50,6 +52,7 @@ public class MinionHttpClient {
         mGlobalProperties = new RequestProperties();
         mGlobalProperties.setAgent(AGENT);
     }
+
 
     // *******************************
     // ******* Public Methods ********
@@ -75,10 +78,19 @@ public class MinionHttpClient {
     /**
      * Sets the request waiting max time for connections.
      *
-     * @param socketTimeOut time of waiting, in milliseconds.
+     * @param connectionTimeOut time of connecting wait, in milliseconds.
      */
-    public void setSocketTimeout(int socketTimeOut) {
-        mSocketTimeOut = socketTimeOut;
+    public void setConnectionTimeOut(int connectionTimeOut) {
+        mConnectionTimeOut = connectionTimeOut;
+    }
+
+    /**
+     * Sets the request waiting max time for connections.
+     *
+     * @param readTimeOut time of reading wait, in milliseconds.
+     */
+    public void setReadTimeOut(int readTimeOut) {
+        mReadTimeOut = readTimeOut;
     }
 
     /**
@@ -149,7 +161,7 @@ public class MinionHttpClient {
      * @param url             the URL to send the request to.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void get(String url, MinionHttpResponseHandler responseHandler) {
+    public void get(String url, DespicableListener responseHandler) {
         get(null, url, null, responseHandler);
     }
 
@@ -160,7 +172,7 @@ public class MinionHttpClient {
      * @param params          additional GET parameters to send with the request.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void get(String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
+    public void get(String url, RequestParams params, DespicableListener responseHandler) {
         get(null, url, params, responseHandler);
     }
 
@@ -171,7 +183,7 @@ public class MinionHttpClient {
      * @param url             the URL to send the request to.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void get(Context context, String url, MinionHttpResponseHandler responseHandler) {
+    public void get(Context context, String url, DespicableListener responseHandler) {
         get(context, url, null, responseHandler);
     }
 
@@ -183,7 +195,7 @@ public class MinionHttpClient {
      * @param params          additional GET parameters to send with the request.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void get(Context context, String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
+    public void get(Context context, String url, RequestParams params, DespicableListener responseHandler) {
         sendRequest(getUrlWithQueryString(url, params), null, context, responseHandler, null, RequestMethod.GET);
     }
 
@@ -196,7 +208,7 @@ public class MinionHttpClient {
      * @param params additional GET parameters to send with the request.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void get(Context context, String url, RequestProperties headers, RequestParams params, MinionHttpResponseHandler responseHandler) {
+    public void get(Context context, String url, RequestProperties headers, RequestParams params, DespicableListener responseHandler) {
         sendRequest(getUrlWithQueryString(url, params), null, context, responseHandler, headers, RequestMethod.GET);
     }
 
@@ -205,7 +217,7 @@ public class MinionHttpClient {
      * @param url the URL to send the request to.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void post(String url, MinionHttpResponseHandler responseHandler) {
+    public void post(String url, DespicableListener responseHandler) {
         post(null, url, null, responseHandler);
     }
 
@@ -215,7 +227,7 @@ public class MinionHttpClient {
      * @param params additional POST parameters or files to send with the request.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void post(String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
+    public void post(String url, RequestParams params, DespicableListener responseHandler) {
         post(null, url, params, responseHandler);
     }
 
@@ -226,7 +238,7 @@ public class MinionHttpClient {
      * @param params additional POST parameters or files to send with the request.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void post(Context context, String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
+    public void post(Context context, String url, RequestParams params, DespicableListener responseHandler) {
         post(context, url, params, null, responseHandler);
     }
 
@@ -238,7 +250,7 @@ public class MinionHttpClient {
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void post(Context context, String url, RequestParams params, String contentType, MinionHttpResponseHandler responseHandler) {
+    public void post(Context context, String url, RequestParams params, String contentType, DespicableListener responseHandler) {
         post(context, url, params, new RequestProperties(), contentType, responseHandler);
     }
 
@@ -253,7 +265,7 @@ public class MinionHttpClient {
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void post(Context context, String url, RequestParams params, RequestProperties requestProperties, String contentType, MinionHttpResponseHandler responseHandler) {
+    public void post(Context context, String url, RequestParams params, RequestProperties requestProperties, String contentType, DespicableListener responseHandler) {
         if (requestProperties != null && contentType != null) {
             requestProperties.setContentType(contentType);
         }
@@ -265,7 +277,7 @@ public class MinionHttpClient {
      * @param url the URL to send the request to.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void put(String url, MinionHttpResponseHandler responseHandler) {
+    public void put(String url, DespicableListener responseHandler) {
         put(null, url, null, responseHandler);
     }
 
@@ -275,7 +287,7 @@ public class MinionHttpClient {
      * @param params additional PUT parameters or files to send with the request.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void put(String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
+    public void put(String url, RequestParams params, DespicableListener responseHandler) {
         put(null, url, params, responseHandler);
     }
 
@@ -286,7 +298,7 @@ public class MinionHttpClient {
      * @param params additional PUT parameters or files to send with the request.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void put(Context context, String url, RequestParams params, MinionHttpResponseHandler responseHandler) {
+    public void put(Context context, String url, RequestParams params, DespicableListener responseHandler) {
         put(context, url, params, null, responseHandler);
     }
 
@@ -299,7 +311,7 @@ public class MinionHttpClient {
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void put(Context context, String url, RequestParams params, String contentType, MinionHttpResponseHandler responseHandler) {
+    public void put(Context context, String url, RequestParams params, String contentType, DespicableListener responseHandler) {
         put(context, url, params, new RequestProperties(), contentType, responseHandler);
     }
 
@@ -313,7 +325,7 @@ public class MinionHttpClient {
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void put(Context context, String url, RequestParams params, RequestProperties requestProperties, String contentType, MinionHttpResponseHandler responseHandler) {
+    public void put(Context context, String url, RequestParams params, RequestProperties requestProperties, String contentType, DespicableListener responseHandler) {
         if (requestProperties != null && contentType != null) {
             requestProperties.setContentType(contentType);
         }
@@ -325,7 +337,7 @@ public class MinionHttpClient {
      * @param url the URL to send the request to.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void delete(String url, MinionHttpResponseHandler responseHandler) {
+    public void delete(String url, DespicableListener responseHandler) {
         delete(null, url, responseHandler);
     }
 
@@ -335,7 +347,7 @@ public class MinionHttpClient {
      * @param url the URL to send the request to.
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void delete(Context context, String url, MinionHttpResponseHandler responseHandler) {
+    public void delete(Context context, String url, DespicableListener responseHandler) {
         delete(context, url, null, responseHandler);
     }
 
@@ -346,7 +358,7 @@ public class MinionHttpClient {
      * @param requestProperties set headers only for this request
      * @param responseHandler the response handler instance that should handle the response.
      */
-    public void delete(Context context, String url, RequestProperties requestProperties, MinionHttpResponseHandler responseHandler) {
+    public void delete(Context context, String url, RequestProperties requestProperties, DespicableListener responseHandler) {
         sendRequest(url, null, context, null, requestProperties, RequestMethod.DELETE);
     }
 
@@ -355,8 +367,19 @@ public class MinionHttpClient {
     // *******************************
     // ****** Protected Methods ******
     // *******************************
-    protected void sendRequest(String url, RequestParams params, Context context, MinionHttpResponseHandler responseHandler, RequestProperties requestProperties, RequestMethod method) {
-        Future<?> request = mThreadPool.submit(new MinionHttpRequest(mOkHttpClient, responseHandler, url, params, mGlobalProperties, requestProperties, mSocketTimeOut, mCharset, method));
+    protected void sendRequest(String url, RequestParams params, Context context, DespicableListener responseHandler, RequestProperties requestProperties, RequestMethod method) {
+        Future<?> request = null;
+        if (responseHandler instanceof MinionJsonListener) {
+//            Future<?> request = mThreadPool.submit(new MinionHttpRequest(mOkHttpClient, responseHandler, url, params, mGlobalProperties, requestProperties, mCharset, method, mConnectionTimeOut, mReadTimeOut));
+        } else if (responseHandler instanceof MinionStringListener) {
+            request = mThreadPool.submit(new MinionHttpStringRequest(mOkHttpClient, url, params, mGlobalProperties, requestProperties, mCharset, method, mConnectionTimeOut, mReadTimeOut, (MinionStringListener)responseHandler));
+        } else if (responseHandler instanceof  MinionObjectListener) {
+//            Future<?> request = mThreadPool.submit(new MinionHttpRequest(mOkHttpClient, responseHandler, url, params, mGlobalProperties, requestProperties, mCharset, method, mConnectionTimeOut, mReadTimeOut));
+        } else {
+            //User has passed DespicableListener
+            //TODO Houston, we have a problem.
+        }
+
 
         if (context != null) {
             // Add request to request map
@@ -365,6 +388,7 @@ public class MinionHttpClient {
                 requestList = new LinkedList<WeakReference<Future<?>>>();
                 requestMap.put(context, requestList);
             }
+            //TODO: the next "request" attribute could be null
             requestList.add(new WeakReference<Future<?>>(request));
             // TODO: Remove dead weakrefs from requestLists?
         }
