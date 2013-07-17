@@ -14,6 +14,10 @@ An Asynchronous OkHttp Library for Android
 
 - Unique ambiguous method, mabe is onFailure, the callback could be of string content or json content...
 
+
+NO USAR ERROR parametro a ser posible. Normalmente el campo content no vendrá nulo. AUn así hay que comprobar...
+
+
 *Wish List
     - Connections got by tag, so you can handle them together listening the same interface,
     - Parsing data in background thread

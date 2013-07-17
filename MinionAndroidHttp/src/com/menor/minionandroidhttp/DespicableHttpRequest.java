@@ -8,8 +8,7 @@ import org.apache.http.client.HttpResponseException;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +63,15 @@ public abstract class DespicableHttpRequest implements Runnable {
         sendStartMessage();
         try {
             makeRequest();
+        } catch (UnknownHostException e) {
+            sendFinishMessage();
+            sendFailureMessage(e, "can't resolve host");
+        } catch (SocketException e) {
+            sendFinishMessage();
+            sendFailureMessage(e, "can't resolve host");
+        } catch (SocketTimeoutException e) {
+            sendFinishMessage();
+            sendFailureMessage(e, "socket time out");
         } catch (Exception e) {
             sendFinishMessage();
             sendFailureMessage(e, null);

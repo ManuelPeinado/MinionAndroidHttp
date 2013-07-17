@@ -70,14 +70,14 @@
     <file path="/JsonArraySuccessResponse.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1373898858189" ignored="false" />
     <file path="/MinionResponseListener.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1373915772374" ignored="false" />
     <file path="/Defaults.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1373925450534" ignored="false" />
-    <file path="/README.md" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1374014635121" ignored="false" />
+    <file path="/README.md" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1374019164762" ignored="false" />
     <file path="/AsyncHttpResponseHandler.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1373963426800" ignored="false" />
     <file path="/BaseHttpListener.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1373966993986" ignored="false" />
     <file path="/StringMinionListener.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1373967302849" ignored="false" />
     <file path="/JsonMinionListener.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1373970694343" ignored="false" />
     <file path="/MinionObjectListener.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1374013339667" ignored="false" />
     <file path="/MinionHttpStringRequest.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1373986277708" ignored="false" />
-    <file path="/DespicableHttpRequest.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1374012713261" ignored="false" />
+    <file path="/DespicableHttpRequest.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1374018035851" ignored="false" />
     <file path="/MinionJsonListener.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1374013256054" ignored="false" />
     <file path="/MinionStringListener.java" changelist="2df0addb-a015-45f2-a009-076530266b2c" time="1374013436922" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -131,66 +131,6 @@
       </breakpoint>
     </breakpoint_any>
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionHttpStringRequest.java" line="51" class="com.menor.minionandroidhttp.MinionHttpStringRequest" package="com.menor.minionandroidhttp">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/HomeActivity.java" line="57" class="com.menor.androidasynchttp.samples.HomeActivity$1" package="com.menor.androidasynchttp.samples">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/HomeActivity.java" line="43" class="com.menor.androidasynchttp.samples.HomeActivity$1" package="com.menor.androidasynchttp.samples">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/HomeActivity.java" line="50" class="com.menor.androidasynchttp.samples.HomeActivity$1" package="com.menor.androidasynchttp.samples">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/MinionAndroidHttp-Samples/src/com/menor/minionandroidhttp/sample/SimpleRequestActivity.java" line="83" class="com.menor.minionandroidhttp.sample.SimpleRequestActivity$1" package="com.menor.minionandroidhttp.sample">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -211,47 +151,62 @@
     <breakpoint_rules />
     <ui_properties />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="JsonHttpResponseHandler.java" pinned="false" current="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/JsonHttpResponseHandler.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="130" column="17" selection-start="4788" selection-end="4788" vertical-scroll-proportion="0.0">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="AsyncHttpResponseHandler.java" pinned="false" current="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/AsyncHttpResponseHandler.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="214" column="37" selection-start="6970" selection-end="6970" vertical-scroll-proportion="0.0">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="AsyncHttpRequest.java" pinned="false" current="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/AsyncHttpRequest.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="118" column="77" selection-start="4314" selection-end="4371" vertical-scroll-proportion="0.5064516">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="MinionAndroidHttp" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HomeActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/HomeActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="22" selection-start="1902" selection-end="1902" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimpleRequestActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/MinionAndroidHttp-Samples/src/com/menor/minionandroidhttp/sample/SimpleRequestActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="41" selection-start="2857" selection-end="2910" vertical-scroll-proportion="0.24558587">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DespicableHttpRequest.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DespicableHttpRequest.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/DespicableHttpRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="0" selection-start="3886" selection-end="3886" vertical-scroll-proportion="0.0">
+            <state line="122" column="29" selection-start="4322" selection-end="4322" vertical-scroll-proportion="2.185309">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MinionHttpStringRequest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionHttpStringRequest.java">
+      <file leaf-file-name="HomeActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/HomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="1008" selection-end="1008" vertical-scroll-proportion="0.0">
+            <state line="42" column="56" selection-start="1502" selection-end="1502" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -275,16 +230,16 @@
         <option value="$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionHttpRequest.java" />
         <option value="$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionHttpResponseHandler.java" />
         <option value="$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/AsyncHttpResponseHandler.java" />
-        <option value="$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/DespicableHttpRequest.java" />
         <option value="$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionJsonListener.java" />
         <option value="$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionObjectListener.java" />
         <option value="$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionStringListener.java" />
         <option value="$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionHttpStringRequest.java" />
         <option value="$PROJECT_DIR$/MinionAndroidHttp-Samples/src/com/menor/minionandroidhttp/sample/DespicableHttpClient.java" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/HomeActivity.java" />
         <option value="$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/ExampleClient.java" />
         <option value="$PROJECT_DIR$/MinionAndroidHttp-Samples/src/com/menor/minionandroidhttp/sample/SimpleRequestActivity.java" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/DespicableHttpRequest.java" />
       </list>
     </option>
   </component>
@@ -373,11 +328,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="MinionAndroidHttp-Samples" />
+              <option name="myItemId" value="MinionAndroidHttp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MinionAndroidHttp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MinionAndroidHttp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minionandroidhttp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -648,14 +617,14 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23076923" sideWeight="0.6980728" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23076923" sideWeight="0.7130621" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.6702356" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28907922" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3019272" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2869379" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32869378" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -775,13 +744,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="104" selection-start="598" selection-end="598" vertical-scroll-proportion="0.40753424">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/ExampleClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="0" selection-start="388" selection-end="388" vertical-scroll-proportion="0.19101124">
@@ -796,27 +758,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/JsonHttpResponseHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="6" selection-start="4515" selection-end="4515" vertical-scroll-proportion="1.7801048">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/AsyncHttpResponseHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="46" selection-start="7820" selection-end="7820" vertical-scroll-proportion="3.8094242">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/AsyncHttpRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="48" selection-start="2869" selection-end="2869" vertical-scroll-proportion="0.96125656">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/BinaryHttpResponseHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="6" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.017801046">
@@ -824,9 +765,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/JsonHttpResponseHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="130" column="17" selection-start="4788" selection-end="4788" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/AsyncHttpResponseHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="214" column="37" selection-start="6970" selection-end="6970" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp/src/com/loopj/android/http/AsyncHttpRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="77" selection-start="4314" selection-end="4371" vertical-scroll-proportion="0.5064516">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionHttpStringRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="0" selection-start="1940" selection-end="1940" vertical-scroll-proportion="0.4551282">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="41" selection-start="146" selection-end="146" vertical-scroll-proportion="0.21794872">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MinionAndroidHttp-Samples/src/com/menor/minionandroidhttp/sample/SimpleRequestActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="0" selection-start="2857" selection-end="2857" vertical-scroll-proportion="1.2009419">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/AndroidAsyncHttp-Samples/src/com/menor/androidasynchttp/samples/HomeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="22" selection-start="1902" selection-end="1902" vertical-scroll-proportion="0.0">
+        <state line="42" column="56" selection-start="1502" selection-end="1502" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -835,26 +822,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/DespicableHttpRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="113" column="0" selection-start="3886" selection-end="3886" vertical-scroll-proportion="0.0">
+        <state line="122" column="29" selection-start="4322" selection-end="4322" vertical-scroll-proportion="2.185309">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MinionAndroidHttp/src/com/menor/minionandroidhttp/MinionHttpStringRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="1008" selection-end="1008" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MinionAndroidHttp-Samples/src/com/menor/minionandroidhttp/sample/SimpleRequestActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="41" selection-start="2857" selection-end="2910" vertical-scroll-proportion="0.24558587">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
