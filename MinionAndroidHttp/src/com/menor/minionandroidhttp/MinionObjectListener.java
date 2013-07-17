@@ -1,9 +1,20 @@
 package com.menor.minionandroidhttp;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
 public class MinionObjectListener implements DespicableListener {
+
+    private Type mType;
+
+    public MinionObjectListener(Type type) {
+        mType = type;
+    }
+
+    public Type getType() {
+        return mType;
+    }
 
     public void onSuccess(Object content) { }
 
@@ -25,5 +36,7 @@ public class MinionObjectListener implements DespicableListener {
 
     @Override
     public void onFailure(Throwable error, String content) { }
+
+
 
 }

@@ -70,6 +70,7 @@ public class MinionHttpJsonRequest extends DespicableHttpRequest {
         Object result = null;
         BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String response = readAll(rd);
+//        JSONObject json = new JSONObject(jsonText);
 
         //trim the string to prevent start with blank, and test if the string is valid JSON, because the parser don't do this :(. If Json is not valid this will return null
         response = response.trim();

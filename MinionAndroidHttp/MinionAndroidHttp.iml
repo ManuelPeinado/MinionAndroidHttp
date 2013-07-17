@@ -17,6 +17,7 @@
     <orderEntry type="jdk" jdkName="API 8 (2.2)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="okhttp-1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
   </component>
 </module>
 

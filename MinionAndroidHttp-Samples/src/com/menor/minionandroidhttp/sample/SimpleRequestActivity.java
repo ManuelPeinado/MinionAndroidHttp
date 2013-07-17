@@ -5,18 +5,19 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.gson.reflect.TypeToken;
+import com.menor.minionandroidhttp.MinionObjectListener;
 import com.menor.minionandroidhttp.MinionStringListener;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class SimpleRequestActivity extends Activity {
 
     private TextView getView;
-    private TextView getTimeView;
     private TextView postView;
-    private TextView postTimeView;
     private TextView putView;
-    private TextView putTimeView;
     private TextView deleteView;
-    private TextView deleteTimeView;
 
     ProgressDialog mProgressDialog;
 
@@ -33,13 +34,9 @@ public class SimpleRequestActivity extends Activity {
 
     private void setViews() {
         getView = (TextView) findViewById(R.id.response_get);
-        getTimeView = (TextView) findViewById(R.id.response_get_time);
         postView = (TextView) findViewById(R.id.response_post);
-        postTimeView = (TextView) findViewById(R.id.response_post_time);
         putView = (TextView) findViewById(R.id.response_put);
-        putTimeView = (TextView) findViewById(R.id.response_put_time);
         deleteView = (TextView) findViewById(R.id.response_delete);
-        deleteTimeView = (TextView) findViewById(R.id.response_delete_time);
 
         mProgressDialog = new ProgressDialog(SimpleRequestActivity.this);
         mProgressDialog.setIndeterminate(true);
@@ -47,7 +44,8 @@ public class SimpleRequestActivity extends Activity {
     }
 
     private void doStuff() {
-        doGetRequest();
+        doFirstGetRequest();
+        doSecondGetRequest();
         doPostRequest();
         doPutRequest();
         doDeleteRequest();
@@ -57,7 +55,7 @@ public class SimpleRequestActivity extends Activity {
 
     }
 
-    private void doGetRequest() {
+    private void doFirstGetRequest() {
         DespicableHttpClient.get("https://raw.github.com/square/okhttp/master/README.md", null, new MinionStringListener() {
             @Override
             public void onPreExecute() {
@@ -67,13 +65,49 @@ public class SimpleRequestActivity extends Activity {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
-                getView.setText(content);
+//                getView.setText(content);
             }
 
             @Override
             public void onFailure(Throwable error, String content) {
                 super.onFailure(error, content);
                 Toast.makeText(SimpleRequestActivity.this, content, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onPostExecute() {
+                mProgressDialog.dismiss();
+            }
+        });
+    }
+
+    private void doSecondGetRequest() {
+        Type classType = new TypeToken<List<Contributor>>() {}.getType();
+        DespicableHttpClient.get("https://api.github.com/repos/square/okhttp/contributors", null, new MinionObjectListener(classType) {
+            @Override
+            public void onPreExecute() {
+                mProgressDialog.show();
+            }
+
+            @Override
+            public void onSuccess(Object content) {
+                String finalText = "";
+                List<Contributor> contributors = (List<Contributor>) content;
+                for (Contributor contrib : contributors) {
+                    finalText += "login: " + contrib.login +"\n" + "contributions: " + contrib.contributions + "\n\n";
+                }
+
+                postView.setText(finalText);
+            }
+
+            @Override
+            public void onFailure(Throwable error, Object errorResponse) {
+                super.onFailure(error, errorResponse);    //To change body of overridden methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void onFailure(Throwable error, String content) {
+                super.onFailure(error, content);    //To change body of overridden methods use File | Settings | File Templates.
             }
 
             @Override
@@ -91,7 +125,10 @@ public class SimpleRequestActivity extends Activity {
 
     }
 
-
+    class Contributor {
+        String login;
+        int contributions;
+    }
 
 
 

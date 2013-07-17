@@ -13,6 +13,7 @@ An Asynchronous OkHttp Library for Android
     - Arquitecture improved. Refactoring done --> Simpler  --> TOTALLY CONTROL TO WHICH INTERFACE METHODS ARE CALLED.  --> MAYBE A LITTLE MORE DANGEROUS(casting) methods
 
 - Unique ambiguous method, mabe is onFailure, the callback could be of string content or json content...
+- Es bueno tener conocimientos de GSON, ya que el parseo de objetos es mediante esta librería.
 
 
 NO USAR ERROR parametro a ser posible. Normalmente el campo content no vendrá nulo. AUn así hay que comprobar...

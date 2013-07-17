@@ -370,11 +370,11 @@ public class MinionHttpClient {
     protected void sendRequest(String url, RequestParams params, Context context, DespicableListener responseHandler, RequestProperties requestProperties, RequestMethod method) {
         Future<?> request = null;
         if (responseHandler instanceof MinionJsonListener) {
-//            Future<?> request = mThreadPool.submit(new MinionHttpRequest(mOkHttpClient, responseHandler, url, params, mGlobalProperties, requestProperties, mCharset, method, mConnectionTimeOut, mReadTimeOut));
+            request = mThreadPool.submit(new MinionHttpJsonRequest(mOkHttpClient, url, params, mGlobalProperties, requestProperties, mCharset, method, mConnectionTimeOut, mReadTimeOut, (MinionJsonListener)responseHandler));
         } else if (responseHandler instanceof MinionStringListener) {
             request = mThreadPool.submit(new MinionHttpStringRequest(mOkHttpClient, url, params, mGlobalProperties, requestProperties, mCharset, method, mConnectionTimeOut, mReadTimeOut, (MinionStringListener)responseHandler));
         } else if (responseHandler instanceof  MinionObjectListener) {
-//            Future<?> request = mThreadPool.submit(new MinionHttpRequest(mOkHttpClient, responseHandler, url, params, mGlobalProperties, requestProperties, mCharset, method, mConnectionTimeOut, mReadTimeOut));
+            request = mThreadPool.submit(new MinionHttpObjectRequest(mOkHttpClient, url, params, mGlobalProperties, requestProperties, mCharset, method, mConnectionTimeOut, mReadTimeOut, (MinionObjectListener)responseHandler));
         } else {
             //User has passed DespicableListener
             //TODO Houston, we have a problem.

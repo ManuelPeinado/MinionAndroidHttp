@@ -26,13 +26,6 @@
             android:layout_marginBottom="4dp"
             android:textColor="@android:color/black"/>
 
-        <TextView
-            android:id="@+id/response_get_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:textColor="@android:color/black"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -48,13 +41,6 @@
 
         <TextView
             android:id="@+id/response_post"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:textColor="@android:color/black"/>
-
-        <TextView
-            android:id="@+id/response_post_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -80,13 +66,6 @@
             android:layout_marginBottom="4dp"
             android:textColor="@android:color/black"/>
 
-        <TextView
-            android:id="@+id/response_put_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:textColor="@android:color/black"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -102,13 +81,6 @@
 
         <TextView
             android:id="@+id/response_delete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:textColor="@android:color/black"/>
-
-        <TextView
-            android:id="@+id/response_delete_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
