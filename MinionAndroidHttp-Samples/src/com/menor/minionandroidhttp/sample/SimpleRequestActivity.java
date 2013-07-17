@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.menor.minionandroidhttp.MinionStringListener;
-import com.menor.minionandroidhttp.RequestParams;
-
-import java.util.Date;
 
 public class SimpleRequestActivity extends Activity {
 
@@ -20,6 +18,8 @@ public class SimpleRequestActivity extends Activity {
     private TextView deleteView;
     private TextView deleteTimeView;
 
+    ProgressDialog mProgressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +27,7 @@ public class SimpleRequestActivity extends Activity {
         setViews();
         doStuff();
     }
+
 
 
 
@@ -39,6 +40,10 @@ public class SimpleRequestActivity extends Activity {
         putTimeView = (TextView) findViewById(R.id.response_put_time);
         deleteView = (TextView) findViewById(R.id.response_delete);
         deleteTimeView = (TextView) findViewById(R.id.response_delete_time);
+
+        mProgressDialog = new ProgressDialog(SimpleRequestActivity.this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
     }
 
     private void doStuff() {
@@ -49,41 +54,26 @@ public class SimpleRequestActivity extends Activity {
     }
 
     private void doPostRequest() {
-        final long start = new Date().getTime();
-        RequestParams params = new RequestParams();
-        params.put("clave", "iabadabadu");
-        params.put("usuario", "18");
-        params.put("idcliente", "15600");
-//        DespicableHttpClient.post("sitios-grabar.php", params, this);
+
     }
 
     private void doGetRequest() {
-        final long start = new Date().getTime();
-        RequestParams params = new RequestParams();
-        params.put("sid", "Cap9lpnb2Fg3Bp,i1RPhL2");
-        DespicableHttpClient.get("list.json", params, new MinionStringListener() {
-
-            ProgressDialog mProgressDialog;
-
+        DespicableHttpClient.get("https://raw.github.com/square/okhttp/master/README.md", null, new MinionStringListener() {
             @Override
             public void onPreExecute() {
-                mProgressDialog = new ProgressDialog(SimpleRequestActivity.this);
-                mProgressDialog.setIndeterminate(true);
-                mProgressDialog.setMessage("Loading...");
                 mProgressDialog.show();
             }
 
             @Override
             public void onSuccess(String content) {
+                super.onSuccess(content);
                 getView.setText(content);
-                getTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
             }
 
             @Override
             public void onFailure(Throwable error, String content) {
-                getView.setText(error.getMessage());
-                putView.setText(content);
-                getTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
+                super.onFailure(error, content);
+                Toast.makeText(SimpleRequestActivity.this, content, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -92,21 +82,6 @@ public class SimpleRequestActivity extends Activity {
             }
         });
     }
-
-
-//    @Override
-//    public void onSuccess(JSONObject response) {
-//        super.onSuccess(response);
-//        getView.setText(response.toString());
-//        getTimeView.setText("sitios-grabar.php" + (new Date().getTime() - start) + " milliseconds");
-//    }
-
-//            @Override
-//            public void onFailure(Throwable error, String content) {
-////                super.onFailure(error, content);
-//                getView.setText(error.getMessage());
-//                getTimeView.setText("" +  (new Date().getTime() - start) + " milliseconds");
-//            }
 
     private void doPutRequest() {
 

@@ -33,7 +33,7 @@ import android.os.Message;
 
 /**
  * Used to intercept and handle the responses from requests made using
- * {@link AsyncHttpClient}. Receives response body as byte array with a 
+ * {@link com.loopj.android.http.AsyncHttpClient}. Receives response body as byte array with a
  * content-type whitelist. (e.g. checks Content-Type against allowed list, 
  * Content-length).
  * <p>

@@ -6,8 +6,10 @@ import android.os.Message;
 import com.squareup.okhttp.OkHttpClient;
 import org.apache.http.client.HttpResponseException;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.net.*;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +60,15 @@ public abstract class DespicableHttpRequest implements Runnable {
     protected abstract void handleMessage(Message msg);
     protected abstract Object parseResponse(InputStream is) throws Exception;
 
+    protected static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
+    }
+
     @Override
     public void run() {
         sendStartMessage();
@@ -93,6 +104,7 @@ public abstract class DespicableHttpRequest implements Runnable {
                         break;
                     case POST:
                     case PUT:
+                        connection.setDoOutput(true);
                         connection.setRequestMethod(mRequestMethod.toString());
                         if (mRequestParams != null) {
                             out = connection.getOutputStream();
@@ -117,30 +129,32 @@ public abstract class DespicableHttpRequest implements Runnable {
     }
 
     private void parseData(HttpURLConnection connection) throws Exception {
-        InputStream in;
-
-        int status = connection.getResponseCode();
-        // Read the response.
-        if (status == HttpURLConnection.HTTP_OK) {
-            in = connection.getInputStream();
-        } else {
-            in = connection.getErrorStream();
+        InputStream in = null;
+        try {
+            int status = connection.getResponseCode();
+            // Read the response.
+            if (status == HttpURLConnection.HTTP_OK) {
+                in = connection.getInputStream();
+            } else {
+                in = connection.getErrorStream();
+            }
+            Object responseBody = parseResponse(in);
+            sendFinishMessage();
+            if (connection.getResponseCode() >= Defaults.REQUEST_CODE_OK) {
+                sendFailureMessage(new HttpResponseException(connection.getResponseCode(), connection.getResponseMessage()), responseBody);
+            } else {
+                sendSuccessMessage(connection.getResponseCode(), connection.getHeaderFields(), responseBody);
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (in != null) in.close();
         }
-        Object responseBody = parseResponse(in);
-        sendFinishMessage();
-        if (connection.getResponseCode() >= Defaults.REQUEST_CODE_OK) {
-            sendFailureMessage(new HttpResponseException(connection.getResponseCode(), connection.getResponseMessage()), responseBody);
-        } else {
-            sendSuccessMessage(connection.getResponseCode(), connection.getHeaderFields(), responseBody);
-        }
-        in.close();
     }
 
     private void addConnectionParameters(HttpURLConnection connection) throws Exception {
         connection.setConnectTimeout(mConnectionTimeOut);
         connection.setReadTimeout(mReadTimeOut);
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
 //                connection.setUseCaches(false);
 
         //set connection params

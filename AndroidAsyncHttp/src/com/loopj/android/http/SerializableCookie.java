@@ -28,8 +28,8 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
 /**
- * A wrapper class around {@link Cookie} and/or {@link BasicClientCookie}
- * designed for use in {@link PersistentCookieStore}.
+ * A wrapper class around {@link org.apache.http.cookie.Cookie} and/or {@link org.apache.http.impl.cookie.BasicClientCookie}
+ * designed for use in {@link com.loopj.android.http.PersistentCookieStore}.
  */
 public class SerializableCookie implements Serializable {
     private static final long serialVersionUID = 6374381828722046732L;

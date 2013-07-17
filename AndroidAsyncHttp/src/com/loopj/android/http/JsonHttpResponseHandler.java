@@ -18,7 +18,6 @@
 
 package com.loopj.android.http;
 
-import android.util.Log;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,11 +28,11 @@ import android.os.Message;
 
 /**
  * Used to intercept and handle the responses from requests made using
- * {@link AsyncHttpClient}, with automatic parsing into a {@link JSONObject}
- * or {@link JSONArray}.
+ * {@link com.loopj.android.http.AsyncHttpClient}, with automatic parsing into a {@link org.json.JSONObject}
+ * or {@link org.json.JSONArray}.
  * <p>
  * This class is designed to be passed to get, post, put and delete requests
- * with the {@link #onSuccess(JSONObject)} or {@link #onSuccess(JSONArray)}
+ * with the {@link #onSuccess(org.json.JSONObject)} or {@link #onSuccess(org.json.JSONArray)}
  * methods anonymously overridden.
  * <p>
  * Additionally, you can override the other event methods from the
@@ -52,9 +51,7 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
      * own code.
      * @param response the parsed json object found in the server response (if any)
      */
-    public void onSuccess(JSONObject response) {
-        Log.v(this.getClass().getSimpleName(), "onSuccess()");
-    }
+    public void onSuccess(JSONObject response) {}
 
 
     /**
@@ -63,9 +60,7 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
      * own code.
      * @param response the parsed json array found in the server response (if any)
      */
-    public void onSuccess(JSONArray response) {
-        Log.v(this.getClass().getSimpleName(), "onSuccess()");
-    }
+    public void onSuccess(JSONArray response) {}
 
     /**
      * Fired when a request returns successfully and contains a json object
@@ -113,12 +108,8 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
         onSuccess(response);
     }
 
-    public void onFailure(Throwable error, JSONObject errorResponse) {
-        Log.v(this.getClass().getSimpleName(), "onFailure()");
-    }
-    public void onFailure(Throwable error, JSONArray errorResponse) {
-        Log.v(this.getClass().getSimpleName(), "onFailure()");
-    }
+    public void onFailure(Throwable e, JSONObject errorResponse) {}
+    public void onFailure(Throwable e, JSONArray errorResponse) {}
 
 
     //
@@ -130,11 +121,7 @@ public class JsonHttpResponseHandler extends AsyncHttpResponseHandler {
         if (statusCode != HttpStatus.SC_NO_CONTENT){        
             try {
                 Object jsonResponse = parseResponse(responseBody);
-
-                //aqui va el parseado background
-//                jsonResponse = parseSuccessMessage(jsonResponse);
-
-	            sendMessage(obtainMessage(SUCCESS_JSON_MESSAGE, new Object[]{statusCode, headers, jsonResponse}));
+	        sendMessage(obtainMessage(SUCCESS_JSON_MESSAGE, new Object[]{statusCode, headers, jsonResponse}));
     	    } catch(JSONException e) {
     	        sendFailureMessage(e, responseBody);
     	    }

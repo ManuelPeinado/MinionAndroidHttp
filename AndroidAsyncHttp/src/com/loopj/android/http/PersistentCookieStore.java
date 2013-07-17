@@ -36,12 +36,12 @@ import android.text.TextUtils;
 
 /**
  * A persistent cookie store which implements the Apache HttpClient
- * {@link CookieStore} interface. Cookies are stored and will persist on the
+ * {@link org.apache.http.client.CookieStore} interface. Cookies are stored and will persist on the
  * user's device between application sessions since they are serialized and
- * stored in {@link SharedPreferences}.
+ * stored in {@link android.content.SharedPreferences}.
  * <p>
  * Instances of this class are designed to be used with
- * {@link AsyncHttpClient#setCookieStore}, but can also be used with a 
+ * {@link com.loopj.android.http.AsyncHttpClient#setCookieStore}, but can also be used with a
  * regular old apache HttpClient/HttpContext if you prefer.
  */
 public class PersistentCookieStore implements CookieStore {

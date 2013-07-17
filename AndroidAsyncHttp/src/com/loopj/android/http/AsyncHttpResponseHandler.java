@@ -33,7 +33,7 @@ import java.io.IOException;
 
 /**
  * Used to intercept and handle the responses from requests made using 
- * {@link AsyncHttpClient}. The {@link #onSuccess(String)} method is 
+ * {@link com.loopj.android.http.AsyncHttpClient}. The {@link #onSuccess(String)} method is
  * designed to be anonymously overridden with your own response handling code.
  * <p>
  * Additionally, you can override the {@link #onFailure(Throwable, String)},

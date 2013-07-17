@@ -91,8 +91,6 @@ class AsyncHttpRequest implements Runnable {
         }
     }
 
-
-
     private void makeRequestWithRetries() throws ConnectException {
         // This is an additional layer of retry logic lifted from droid-fu
         // See: https://github.com/kaeppler/droid-fu/blob/master/src/main/java/com/github/droidfu/http/BetterHttpRequestBase.java

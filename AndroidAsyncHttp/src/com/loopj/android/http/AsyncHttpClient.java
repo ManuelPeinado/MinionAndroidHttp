@@ -70,6 +70,25 @@ import org.apache.http.protocol.SyncBasicHttpContext;
 import android.content.Context;
 
 
+/**
+ * The AsyncHttpClient can be used to make asynchronous GET, POST, PUT and 
+ * DELETE HTTP requests in your Android applications. Requests can be made
+ * with additional parameters by passing a {@link com.loopj.android.http.RequestParams} instance,
+ * and responses can be handled by passing an anonymously overridden 
+ * {@link com.loopj.android.http.AsyncHttpResponseHandler} instance.
+ * <p>
+ * For example:
+ * <p>
+ * <pre>
+ * AsyncHttpClient client = new AsyncHttpClient();
+ * client.get("http://www.google.com", new AsyncHttpResponseHandler() {
+ *     &#064;Override
+ *     public void onSuccess(String response) {
+ *         System.out.println(response);
+ *     }
+ * });
+ * </pre>
+ */
 public class AsyncHttpClient {
     private static final String VERSION = "1.4.3";
 
@@ -164,7 +183,7 @@ public class AsyncHttpClient {
     }
 
     /**
-     * Get the underlying HttpContext instance. This is useful for getting
+     * Get the underlying HttpContext instance. This is useful for getting 
      * and setting fine-grained settings for requests by accessing the
      * context's attributes such as the CookieStore.
      */
@@ -174,7 +193,7 @@ public class AsyncHttpClient {
 
     /**
      * Sets an optional CookieStore to use when making requests
-     * @param cookieStore The CookieStore implementation to use, usually an instance of {@link PersistentCookieStore}
+     * @param cookieStore The CookieStore implementation to use, usually an instance of {@link com.loopj.android.http.PersistentCookieStore}
      */
     public void setCookieStore(CookieStore cookieStore) {
         httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
@@ -183,7 +202,7 @@ public class AsyncHttpClient {
     /**
      * Overrides the threadpool implementation used when queuing/pooling
      * requests. By default, Executors.newCachedThreadPool() is used.
-     * @param threadPool an instance of {@link ThreadPoolExecutor} to use for queuing/pooling requests.
+     * @param threadPool an instance of {@link java.util.concurrent.ThreadPoolExecutor} to use for queuing/pooling requests.
      */
     public void setThreadPool(ThreadPoolExecutor threadPool) {
         this.threadPool = threadPool;
@@ -229,7 +248,7 @@ public class AsyncHttpClient {
 
     /**
      * Sets basic authentication for the request. Uses AuthScope.ANY. This is the same as
-     * setBasicAuth('username','password',AuthScope.ANY)
+     * setBasicAuth('username','password',AuthScope.ANY) 
      * @param username
      * @param password
      */
@@ -237,7 +256,7 @@ public class AsyncHttpClient {
         AuthScope scope = AuthScope.ANY;
         setBasicAuth(user, pass, scope);
     }
-
+    
    /**
      * Sets basic authentication for the request. You should pass in your AuthScope for security. It should be like this
      * setBasicAuth("username","password", new AuthScope("host",port,AuthScope.ANY_REALM))
@@ -320,11 +339,11 @@ public class AsyncHttpClient {
     public void get(Context context, String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         sendRequest(httpClient, httpContext, new HttpGet(getUrlWithQueryString(url, params)), null, responseHandler, context);
     }
-
+    
     /**
      * Perform a HTTP GET request and track the Android Context which initiated
      * the request with customized headers
-     *
+     * 
      * @param url the URL to send the request to.
      * @param headers set headers only for this request
      * @param params additional GET parameters to send with the request.
@@ -377,7 +396,7 @@ public class AsyncHttpClient {
      * Perform a HTTP POST request and track the Android Context which initiated the request.
      * @param context the Android Context which initiated the request.
      * @param url the URL to send the request to.
-     * @param entity a raw {@link HttpEntity} to send with the request, for example, use this to send string/json/xml payloads to a server by passing a {@link org.apache.http.entity.StringEntity}.
+     * @param entity a raw {@link org.apache.http.HttpEntity} to send with the request, for example, use this to send string/json/xml payloads to a server by passing a {@link org.apache.http.entity.StringEntity}.
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */
@@ -388,7 +407,7 @@ public class AsyncHttpClient {
     /**
      * Perform a HTTP POST request and track the Android Context which initiated
      * the request. Set headers only for this request
-     *
+     * 
      * @param context the Android Context which initiated the request.
      * @param url the URL to send the request to.
      * @param headers set headers only for this request
@@ -414,7 +433,7 @@ public class AsyncHttpClient {
      * @param context the Android Context which initiated the request.
      * @param url the URL to send the request to.
      * @param headers set headers only for this request
-     * @param entity a raw {@link HttpEntity} to send with the request, for
+     * @param entity a raw {@link org.apache.http.HttpEntity} to send with the request, for
      *        example, use this to send string/json/xml payloads to a server by
      *        passing a {@link org.apache.http.entity.StringEntity}.
      * @param contentType the content type of the payload you are sending, for
@@ -468,21 +487,21 @@ public class AsyncHttpClient {
      * And set one-time headers for the request
      * @param context the Android Context which initiated the request.
      * @param url the URL to send the request to.
-     * @param entity a raw {@link HttpEntity} to send with the request, for example, use this to send string/json/xml payloads to a server by passing a {@link org.apache.http.entity.StringEntity}.
+     * @param entity a raw {@link org.apache.http.HttpEntity} to send with the request, for example, use this to send string/json/xml payloads to a server by passing a {@link org.apache.http.entity.StringEntity}.
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */
     public void put(Context context, String url, HttpEntity entity, String contentType, AsyncHttpResponseHandler responseHandler) {
         sendRequest(httpClient, httpContext, addEntityToRequestBase(new HttpPut(url), entity), contentType, responseHandler, context);
     }
-
+    
     /**
      * Perform a HTTP PUT request and track the Android Context which initiated the request.
      * And set one-time headers for the request
      * @param context the Android Context which initiated the request.
      * @param url the URL to send the request to.
      * @param headers set one-time headers for this request
-     * @param entity a raw {@link HttpEntity} to send with the request, for example, use this to send string/json/xml payloads to a server by passing a {@link org.apache.http.entity.StringEntity}.
+     * @param entity a raw {@link org.apache.http.HttpEntity} to send with the request, for example, use this to send string/json/xml payloads to a server by passing a {@link org.apache.http.entity.StringEntity}.
      * @param contentType the content type of the payload you are sending, for example application/json if sending a json payload.
      * @param responseHandler the response handler instance that should handle the response.
      */

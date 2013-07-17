@@ -36,7 +36,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 /**
  * A collection of string request parameters or files to send along with
- * requests made from an {@link AsyncHttpClient} instance.
+ * requests made from an {@link com.loopj.android.http.AsyncHttpClient} instance.
  * <p>
  * For example:
  * <p>
